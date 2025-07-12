@@ -18,10 +18,14 @@ requestRouter.post(
       if(!allowedStatus.includes(status)){
         return res
         .status(400)
-        .json({message: "Invalid status type"+ status});
+        .json({message: "Invalid status type: " + status});
       }
       //Check if the user is sending the request to themselves
-       
+      if (fromUserId.toString() === toUserId.toString()) {
+        return res.status(400).json({
+          message: "You cannot send a request to yourself"
+        });
+      }
 
       const toUser = await User.findById(toUserId);
       if (!toUser) {
@@ -38,7 +42,7 @@ requestRouter.post(
         ],
       });
       if(existingConnectionRequest){
-        return res.status(400).send({ message: "COnnection Request already Exists !"});
+        return res.status(400).json({ message: "Connection Request already Exists!"});
       }
 
       const connectionRequest = new ConnectionRequest({
@@ -86,7 +90,7 @@ requestRouter.post(
 
       const data = await connectionRequest.save();
 
-      res.json({ message: "Connection request " +status, data});
+      res.json({ message: "Connection request " + status, data});
     } catch (err) {
       res.status(400).send("ERROR :" + err.message);
     }
