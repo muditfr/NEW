@@ -14,13 +14,16 @@ app.use(cookieParser());
 const authRouter = require("./routes/auth");
 const profileRouter = require("./routes/profile");
 const requestRouter = require("./routes/request");
-const user = require("./models/user");
 const userRouter = require("./routes/userroute");
+const adminRouter = require("./routes/admin");
+const reportRouter = require("./routes/report");
 
 app.use("/", authRouter);
 app.use("/", profileRouter);
 app.use("/", requestRouter);
 app.use("/", userRouter);
+app.use("/admin", adminRouter);
+app.use("/report", reportRouter);
 
 connectDB()
   .then(() => {

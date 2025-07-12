@@ -57,6 +57,14 @@ const NavBar = () => {
         <li>
           <Link to="/requests">Requests</Link>
         </li>
+        {user?.isAdmin && (
+          <li>
+            <Link to="/admin" className="text-orange-600 font-semibold">
+              Admin Panel
+              <span className="badge badge-warning">Admin</span>
+            </Link>
+          </li>
+        )}
         <li>
           <a onClick={handleLogout}>Logout</a>
         </li>

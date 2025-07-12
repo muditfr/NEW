@@ -4,6 +4,7 @@ const { userAuth } = require("../middlewares/auth");
 const { Connection } = require("mongoose");
 const ConnectionRequest = require("../models/connectionRequest");
 const User = require("../models/user");
+const { logActivity, logUserActivity } = require("../middlewares/activityLogger");
 
 requestRouter.post(
   "/request/send/:status/:toUserId",
@@ -48,6 +49,13 @@ requestRouter.post(
       });
       const data = await connectionRequest.save();
 
+      // Log connection request activity
+      await logUserActivity(fromUserId, "connection_request", `Sent ${status} request to ${toUser.firstName}`, {
+        targetUserId: toUserId,
+        requestStatus: status,
+        requestId: data._id
+      });
+
       res.json({
         message: "Connection Request Sent Successfully",
         data,
@@ -85,6 +93,13 @@ requestRouter.post(
       connectionRequest.status = status;
 
       const data = await connectionRequest.save();
+
+      // Log connection request review activity
+      await logUserActivity(loggedInUserId._id, "connection_request", `${status} connection request`, {
+        requestId: requestId,
+        requestStatus: status,
+        fromUserId: connectionRequest.fromUserId
+      });
 
       res.json({ message: "Connection request " +status, data});
     } catch (err) {
