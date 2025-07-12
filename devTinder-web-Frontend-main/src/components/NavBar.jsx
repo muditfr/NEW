@@ -57,6 +57,16 @@ const NavBar = () => {
         <li>
           <Link to="/requests">Requests</Link>
         </li>
+        {user?.role === 'admin' && (
+          <>
+            <li>
+              <Link to="/admin">Admin Dashboard</Link>
+            </li>
+            <li>
+              <Link to="/admin/users">User Management</Link>
+            </li>
+          </>
+        )}
         <li>
           <a onClick={handleLogout}>Logout</a>
         </li>
