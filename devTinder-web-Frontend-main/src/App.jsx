@@ -7,6 +7,9 @@ import { Provider } from "react-redux";
 import Feed from "./components/Feed";
 import Connections from "./components/Connections";
 import Requests from "./components/Requests";
+import AdminDashboard from "./components/AdminDashboard";
+import UserManagement from "./components/UserManagement";
+import AdminRoute from "./components/AdminRoute";
 
 function App() {
   return (
@@ -20,6 +23,8 @@ function App() {
          <Route path="/profile" element={<Profile/>}></Route>
          <Route path="/connections" element={<Connections/>}></Route>
          <Route path="/requests" element={<Requests/>}></Route>
+         <Route path="/admin" element={<AdminRoute><AdminDashboard/></AdminRoute>}></Route>
+         <Route path="/admin/users" element={<AdminRoute><UserManagement/></AdminRoute>}></Route>
         </Route>
       </Routes>
     </BrowserRouter>
